@@ -89,7 +89,7 @@ namespace WindowsFormAAG
                     break;
                 //влево
                 case Direction.Left:
-                    if (_startPosX - 50 - step > 0)
+                    if (_startPosX - step > 0)
                     {
                         _startPosX -= step;
                     }
