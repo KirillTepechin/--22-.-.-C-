@@ -7,13 +7,13 @@ using System.Drawing;
 
 namespace WindowsFormAAG
 {
-	class AntiAircraftGun : ArmoredVehicle
+    class AntiAircraftGun : ArmoredVehicle
 
-	{
-		/// <summary>
-		/// Наличие радиолокации
-		/// </summary>
-		public bool Radiolocation { private set; get; }
+    {
+        /// <summary>
+        /// Наличие радиолокации
+        /// </summary>
+        public bool Radiolocation { private set; get; }
         /// <summary>
         /// Наличие пушки
         /// </summary>
@@ -24,8 +24,8 @@ namespace WindowsFormAAG
         public Color DopColor { private set; get; }
 
         public AntiAircraftGun(int maxSpeed, float weight, Color mainColor, Color dopColor,
-    bool gun,bool radiolocation) :
-    base(maxSpeed, weight, mainColor, 100, 60)
+bool gun, bool radiolocation) :
+            base(maxSpeed, weight, mainColor, 100, 60)
         {
             DopColor = dopColor;
             MaxSpeed = maxSpeed;
@@ -34,8 +34,8 @@ namespace WindowsFormAAG
             Gun = gun;
             Radiolocation = radiolocation;
         }
-		public override void DrawTransport(Graphics g)
-		{
+        public override void DrawTransport(Graphics g)
+        {
             Pen pen = new Pen(MainColor);
             Brush br = new SolidBrush(MainColor);
             int shiftX = 45;
@@ -72,7 +72,7 @@ namespace WindowsFormAAG
             }
 
             base.DrawTransport(g);
-		}
+        }
 
-	}
+    }
 }
