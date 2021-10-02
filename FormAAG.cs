@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace WindowsFormAAG
 {
-	public partial class Form1 : Form
+	public partial class FormAAG : Form
 	{
-		private AntiAircraftGun Aag;
-		public Form1()
+		private ITransport armoredVehicle;
+		public FormAAG()
 		{
 			InitializeComponent();
 		}
@@ -20,21 +20,28 @@ namespace WindowsFormAAG
 		{
 			Bitmap bmp = new Bitmap(pictureBoxAAG.Width, pictureBoxAAG.Height);
 			Graphics gr = Graphics.FromImage(bmp);
-			Aag.DrawTransport(gr);
+			armoredVehicle.DrawTransport(gr);
 			pictureBoxAAG.Image = bmp;
 		}
-
-		private void buttonCreate_Click(object sender, EventArgs e)
+		private void buttonCreateArmoredVehicle_Click(object sender, EventArgs e)
 		{
 			Random rnd = new Random();
-			Aag = new AntiAircraftGun();
-			Aag.Init(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.DarkGreen,
-				Color.DarkOliveGreen, true, true);
-			Aag.SetPosition(rnd.Next(10, 100),
-				rnd.Next(10, 100), pictureBoxAAG.Width, pictureBoxAAG.Height);
-			
+			armoredVehicle = new ArmoredVehicle(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.DarkGreen);
+			armoredVehicle.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxAAG.Width,
+		   pictureBoxAAG.Height);
 			Draw();
 		}
+		private void buttonCreateAag_Click(object sender, EventArgs e)
+		{
+			Random rnd = new Random();
+			armoredVehicle = new AntiAircraftGun(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.DarkGreen,
+		   Color.DarkOliveGreen, true, true);
+			armoredVehicle.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxAAG.Width,
+		   pictureBoxAAG.Height);
+			Draw();
+
+		}
+
 		private void buttonMove_Click(object sender, EventArgs e)
 		{
 			//получаем имя кнопки
@@ -42,11 +49,10 @@ namespace WindowsFormAAG
 			
 				switch (name)
 				{
-					
 					case "buttonUp":
-						if (Aag != null)
+						if (armoredVehicle != null)
 						{
-							Aag.MoveTransport(Direction.Up);
+							armoredVehicle.MoveTransport(Direction.Up);
 						}
 						else
 						{
@@ -55,9 +61,9 @@ namespace WindowsFormAAG
 						}
 						break;
 					case "buttonDown":
-					if (Aag != null)
+					if (armoredVehicle != null)
 					{
-						Aag.MoveTransport(Direction.Down);
+						armoredVehicle.MoveTransport(Direction.Down);
 					}
 					else
 					{
@@ -66,9 +72,9 @@ namespace WindowsFormAAG
 					}
 					break;
 				case "buttonLeft":
-					if (Aag != null)
+					if (armoredVehicle != null)
 					{
-						Aag.MoveTransport(Direction.Left);
+						armoredVehicle.MoveTransport(Direction.Left);
 					}
 					else
 					{
@@ -77,9 +83,9 @@ namespace WindowsFormAAG
 					}
 					break;
 				case "buttonRight":
-					if (Aag != null)
+					if (armoredVehicle != null)
 					{
-						Aag.MoveTransport(Direction.Right);
+						armoredVehicle.MoveTransport(Direction.Right);
 					}
 					else
 					{
@@ -89,13 +95,8 @@ namespace WindowsFormAAG
 					break;
 
 			}
-			
+
 			Draw();
 		}
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-    }
+	}
 }

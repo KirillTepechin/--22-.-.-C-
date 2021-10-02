@@ -46,14 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Direction.cs" />
     <Compile Include="AntiAircraftGun.cs" />
+    <Compile Include="ArmoredVehicle.cs" />
+    <Compile Include="Vehicle.cs" />
+    <Compile Include="Direction.cs" />
     <Compile Include="FormAAG.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormAAG.Designer.cs">
       <DependentUpon>FormAAG.cs</DependentUpon>
     </Compile>
+    <Compile Include="ITransport.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormAAG.resx">
