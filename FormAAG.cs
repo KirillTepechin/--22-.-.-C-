@@ -16,17 +16,22 @@ namespace WindowsFormAAG
 		{
 			InitializeComponent();
 		}
+		public void SetArmoredVehicle(ITransport armoredVehicle)
+        {
+			this.armoredVehicle = armoredVehicle;
+			Draw();
+		}
 		private void Draw()
 		{
 			Bitmap bmp = new Bitmap(pictureBoxAAG.Width, pictureBoxAAG.Height);
 			Graphics gr = Graphics.FromImage(bmp);
-			armoredVehicle.DrawTransport(gr);
+			armoredVehicle?.DrawTransport(gr);
 			pictureBoxAAG.Image = bmp;
 		}
 		private void buttonCreateArmoredVehicle_Click(object sender, EventArgs e)
 		{
 			Random rnd = new Random();
-			armoredVehicle = new ArmoredVehicle(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.DarkGreen);
+			armoredVehicle = new ArmoredVehicle(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Blue);
 			armoredVehicle.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxAAG.Width,
 		   pictureBoxAAG.Height);
 			Draw();
@@ -34,69 +39,33 @@ namespace WindowsFormAAG
 		private void buttonCreateAag_Click(object sender, EventArgs e)
 		{
 			Random rnd = new Random();
-			armoredVehicle = new AntiAircraftGun(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.DarkGreen,
-		   Color.DarkOliveGreen, true, true);
+			armoredVehicle = new AntiAircraftGun(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Blue,
+		   Color.Yellow, true, true);
 			armoredVehicle.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxAAG.Width,
 		   pictureBoxAAG.Height);
 			Draw();
-
 		}
 
 		private void buttonMove_Click(object sender, EventArgs e)
 		{
 			//получаем имя кнопки
 			string name = (sender as Button).Name;
-			
-				switch (name)
-				{
-					case "buttonUp":
-						if (armoredVehicle != null)
-						{
-							armoredVehicle.MoveTransport(Direction.Up);
-						}
-						else
-						{
-							MessageBox.Show("Сначала создайте зенитку!!");
-							return;
-						}
-						break;
-					case "buttonDown":
-					if (armoredVehicle != null)
-					{
-						armoredVehicle.MoveTransport(Direction.Down);
-					}
-					else
-					{
-						MessageBox.Show("Сначала создайте зенитку!!");
-						return;
-					}
+            switch (name)
+            {
+				case "buttonUp":
+					armoredVehicle?.MoveTransport(Direction.Up);
+					break;
+				case "buttonDown":
+					armoredVehicle?.MoveTransport(Direction.Down);
 					break;
 				case "buttonLeft":
-					if (armoredVehicle != null)
-					{
-						armoredVehicle.MoveTransport(Direction.Left);
-					}
-					else
-					{
-						MessageBox.Show("Сначала создайте зенитку!!");
-						return;
-					}
+					armoredVehicle?.MoveTransport(Direction.Left);
 					break;
 				case "buttonRight":
-					if (armoredVehicle != null)
-					{
-						armoredVehicle.MoveTransport(Direction.Right);
-					}
-					else
-					{
-						MessageBox.Show("Сначала создайте зенитку!!");
-						return;
-					}
+					armoredVehicle?.MoveTransport(Direction.Right);
 					break;
-
 			}
-
-			Draw();
+            Draw();
 		}
 	}
 }

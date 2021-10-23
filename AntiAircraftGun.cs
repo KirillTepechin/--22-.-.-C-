@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace WindowsFormAAG
 {
-    class AntiAircraftGun : ArmoredVehicle
+    public class AntiAircraftGun : ArmoredVehicle
 
     {
         /// <summary>
