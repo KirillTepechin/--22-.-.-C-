@@ -10,9 +10,13 @@ namespace WindowsFormAAG
     public class Hangar<T> where T : class, ITransport
     {
         /// <summary>
-        /// Массив объектов, которые храним
+        /// Список объектов, которые храним
         /// </summary>
-        private readonly T[] _places;
+        private readonly List<T> _places;
+        /// <summary>
+        /// Максимальное количество мест в ангаре
+        /// </summary>
+        private readonly int _maxCount;
         /// <summary>
         /// Ширина окна отрисовки
         /// </summary>
@@ -38,46 +42,50 @@ namespace WindowsFormAAG
         {
             int width = picWidth / _placeSizeWidth;
             int height = picHeight / _placeSizeHeight;
-            _places = new T[width * height];
+            _maxCount = width * height;
             pictureWidth = picWidth;
             pictureHeight = picHeight;
+            _places = new List<T>();
         }
         /// <summary>
         /// Перегрузка оператора сложения
         /// Логика действия: в ангар добавляется бронетранспорт
         /// </summary>
-        /// <param name="h">Парковка</param>
-        /// <param name="ArmoredVehicle">Добавляемый автомобиль</param>
+        /// <param name="h">Ангар</param>
+        /// <param name="ArmoredVehicle">Добавляемый бронетранспорт</param>
         /// <returns></returns>
         public static int operator +(Hangar<T> h, T ArmoredVehicle)
         {
-            for(int i = 0; i < h._places.Length; i++)
+            if (h._maxCount == h._places.Count)
             {
-                if (h._places[i] == null)
-                {
-                    h._places[i] = ArmoredVehicle;
-                    h._places[i].SetPosition(5 + i % 3 * h._placeSizeWidth + 5, i / 3 * (h._placeSizeHeight + 9) + 12, h.pictureWidth, h.pictureHeight);
-                    return i;
-                }
+                return -1;
             }
-            return -1;
+            else
+            {
+                h._places.Add(ArmoredVehicle);
+                return h._places.Count-1;
+            }
+           
         }
         /// <summary>
         /// Перегрузка оператора вычитания
         /// Логика действия: с ангара забираем технику
         /// </summary>
-        /// <param name="h">Ангар</param>
+        /// <param name="p">Ангар</param>
         /// <param name="index">Индекс места, с которого пытаемся извлечь  объект</param>
         /// <returns></returns>
         public static T operator -(Hangar<T> h, int index)
         {
-            if (index >= h._places.Length || index<0)
-             {
-                 return null;
-             }
-            T tmp = h._places[index];
-            h._places[index] = null;          
-            return tmp;
+            if (index>h._maxCount||index<0)
+            {
+                return null;
+            }
+            else
+            {
+                T tmp = h._places[index];
+                h._places.Remove(h._places[index]);
+                return tmp;
+            }
         }
         /// <summary>
         /// Метод отрисовки ангара
@@ -86,9 +94,11 @@ namespace WindowsFormAAG
         public void Draw(Graphics g)
         {
             DrawMarking(g);
-            for (int i = 0; i < _places.Length; i++)
+            for (int i = 0; i < _places.Count; ++i)
             {
-                _places[i]?.DrawTransport(g);
+                _places[i].SetPosition(5 + i % 3 * _placeSizeWidth + 5, i / 3 *
+                (_placeSizeHeight + 9) + 12, pictureWidth, pictureHeight);
+                _places[i].DrawTransport(g);
             }
         }
         /// <summary>
@@ -103,11 +113,11 @@ namespace WindowsFormAAG
             {
                 for (int j = 0; j < pictureHeight / _placeSizeHeight + 1; ++j)
                 {//линия разметки места
-                    g.DrawLine(pen, i * _placeSizeWidth, j *( _placeSizeHeight+shift),
-                    i *_placeSizeWidth + _placeSizeWidth / 2 + 50, j * (_placeSizeHeight+shift));
+                    g.DrawLine(pen, i * _placeSizeWidth, j * (_placeSizeHeight + shift),
+                    i * _placeSizeWidth + _placeSizeWidth / 2 + 50, j * (_placeSizeHeight + shift));
                 }
                 g.DrawLine(pen, i * _placeSizeWidth, 0, i * _placeSizeWidth,
-               (pictureHeight / _placeSizeHeight) * (_placeSizeHeight+shift));
+               (pictureHeight / _placeSizeHeight) * (_placeSizeHeight + shift));
 
             }
         }

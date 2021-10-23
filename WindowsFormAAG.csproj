@@ -55,6 +55,7 @@
       <DependentUpon>FormHangar.cs</DependentUpon>
     </Compile>
     <Compile Include="Hangar.cs" />
+    <Compile Include="HangarCollection.cs" />
     <Compile Include="Vehicle.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="FormAAG.cs">

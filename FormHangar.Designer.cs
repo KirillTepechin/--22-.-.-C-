@@ -31,6 +31,11 @@ namespace WindowsFormAAG
         {
             this.pictureBoxHangar = new System.Windows.Forms.PictureBox();
             this.groupBox = new System.Windows.Forms.GroupBox();
+            this.textBoxNewLevelName = new System.Windows.Forms.TextBox();
+            this.buttonDelHangar = new System.Windows.Forms.Button();
+            this.buttonAddHangar = new System.Windows.Forms.Button();
+            this.labelHangars = new System.Windows.Forms.Label();
+            this.listBoxHangars = new System.Windows.Forms.ListBox();
             this.buttonTakeArmoredVehicle = new System.Windows.Forms.Button();
             this.buttonSetAAG = new System.Windows.Forms.Button();
             this.buttonSetArmoredVehicle = new System.Windows.Forms.Button();
@@ -51,6 +56,11 @@ namespace WindowsFormAAG
             // 
             // groupBox
             // 
+            this.groupBox.Controls.Add(this.textBoxNewLevelName);
+            this.groupBox.Controls.Add(this.buttonDelHangar);
+            this.groupBox.Controls.Add(this.buttonAddHangar);
+            this.groupBox.Controls.Add(this.labelHangars);
+            this.groupBox.Controls.Add(this.listBoxHangars);
             this.groupBox.Controls.Add(this.buttonTakeArmoredVehicle);
             this.groupBox.Controls.Add(this.buttonSetAAG);
             this.groupBox.Controls.Add(this.buttonSetArmoredVehicle);
@@ -63,9 +73,54 @@ namespace WindowsFormAAG
             this.groupBox.TabIndex = 1;
             this.groupBox.TabStop = false;
             // 
+            // textBoxNewLevelName
+            // 
+            this.textBoxNewLevelName.Location = new System.Drawing.Point(25, 25);
+            this.textBoxNewLevelName.Name = "textBoxNewLevelName";
+            this.textBoxNewLevelName.Size = new System.Drawing.Size(155, 20);
+            this.textBoxNewLevelName.TabIndex = 10;
+            // 
+            // buttonDelHangar
+            // 
+            this.buttonDelHangar.Location = new System.Drawing.Point(25, 220);
+            this.buttonDelHangar.Name = "buttonDelHangar";
+            this.buttonDelHangar.Size = new System.Drawing.Size(158, 23);
+            this.buttonDelHangar.TabIndex = 9;
+            this.buttonDelHangar.Text = "Удалить ангар";
+            this.buttonDelHangar.UseVisualStyleBackColor = true;
+            this.buttonDelHangar.Click += new System.EventHandler(this.buttonDelHangar_Click);
+            // 
+            // buttonAddHangar
+            // 
+            this.buttonAddHangar.Location = new System.Drawing.Point(25, 51);
+            this.buttonAddHangar.Name = "buttonAddHangar";
+            this.buttonAddHangar.Size = new System.Drawing.Size(158, 23);
+            this.buttonAddHangar.TabIndex = 8;
+            this.buttonAddHangar.Text = "Добавить ангар";
+            this.buttonAddHangar.UseVisualStyleBackColor = true;
+            this.buttonAddHangar.Click += new System.EventHandler(this.buttonAddHangar_Click);
+            // 
+            // labelHangars
+            // 
+            this.labelHangars.AutoSize = true;
+            this.labelHangars.Location = new System.Drawing.Point(78, 9);
+            this.labelHangars.Name = "labelHangars";
+            this.labelHangars.Size = new System.Drawing.Size(48, 13);
+            this.labelHangars.TabIndex = 7;
+            this.labelHangars.Text = "Ангары:";
+            // 
+            // listBoxHangars
+            // 
+            this.listBoxHangars.FormattingEnabled = true;
+            this.listBoxHangars.Location = new System.Drawing.Point(25, 80);
+            this.listBoxHangars.Name = "listBoxHangars";
+            this.listBoxHangars.Size = new System.Drawing.Size(158, 134);
+            this.listBoxHangars.TabIndex = 6;
+            this.listBoxHangars.SelectedIndexChanged += new System.EventHandler(this.listBoxHangars_SelectedIndexChanged_1);
+            // 
             // buttonTakeArmoredVehicle
             // 
-            this.buttonTakeArmoredVehicle.Location = new System.Drawing.Point(67, 170);
+            this.buttonTakeArmoredVehicle.Location = new System.Drawing.Point(67, 415);
             this.buttonTakeArmoredVehicle.Name = "buttonTakeArmoredVehicle";
             this.buttonTakeArmoredVehicle.Size = new System.Drawing.Size(75, 23);
             this.buttonTakeArmoredVehicle.TabIndex = 5;
@@ -75,7 +130,7 @@ namespace WindowsFormAAG
             // 
             // buttonSetAAG
             // 
-            this.buttonSetAAG.Location = new System.Drawing.Point(25, 71);
+            this.buttonSetAAG.Location = new System.Drawing.Point(25, 316);
             this.buttonSetAAG.Name = "buttonSetAAG";
             this.buttonSetAAG.Size = new System.Drawing.Size(159, 47);
             this.buttonSetAAG.TabIndex = 4;
@@ -85,7 +140,7 @@ namespace WindowsFormAAG
             // 
             // buttonSetArmoredVehicle
             // 
-            this.buttonSetArmoredVehicle.Location = new System.Drawing.Point(25, 19);
+            this.buttonSetArmoredVehicle.Location = new System.Drawing.Point(25, 264);
             this.buttonSetArmoredVehicle.Name = "buttonSetArmoredVehicle";
             this.buttonSetArmoredVehicle.Size = new System.Drawing.Size(159, 46);
             this.buttonSetArmoredVehicle.TabIndex = 3;
@@ -96,7 +151,7 @@ namespace WindowsFormAAG
             // labelIndex
             // 
             this.labelIndex.AutoSize = true;
-            this.labelIndex.Location = new System.Drawing.Point(40, 147);
+            this.labelIndex.Location = new System.Drawing.Point(40, 392);
             this.labelIndex.Name = "labelIndex";
             this.labelIndex.Size = new System.Drawing.Size(42, 13);
             this.labelIndex.TabIndex = 2;
@@ -104,7 +159,7 @@ namespace WindowsFormAAG
             // 
             // maskedTextBox
             // 
-            this.maskedTextBox.Location = new System.Drawing.Point(121, 144);
+            this.maskedTextBox.Location = new System.Drawing.Point(121, 389);
             this.maskedTextBox.Name = "maskedTextBox";
             this.maskedTextBox.Size = new System.Drawing.Size(54, 20);
             this.maskedTextBox.TabIndex = 1;
@@ -112,7 +167,7 @@ namespace WindowsFormAAG
             // labelTake
             // 
             this.labelTake.AutoSize = true;
-            this.labelTake.Location = new System.Drawing.Point(41, 121);
+            this.labelTake.Location = new System.Drawing.Point(41, 366);
             this.labelTake.Name = "labelTake";
             this.labelTake.Size = new System.Drawing.Size(134, 13);
             this.labelTake.TabIndex = 0;
@@ -144,5 +199,10 @@ namespace WindowsFormAAG
         private System.Windows.Forms.Label labelIndex;
         private System.Windows.Forms.MaskedTextBox maskedTextBox;
         private System.Windows.Forms.Label labelTake;
+        private System.Windows.Forms.ListBox listBoxHangars;
+        private System.Windows.Forms.Button buttonDelHangar;
+        private System.Windows.Forms.Button buttonAddHangar;
+        private System.Windows.Forms.Label labelHangars;
+        private System.Windows.Forms.TextBox textBoxNewLevelName;
     }
 }

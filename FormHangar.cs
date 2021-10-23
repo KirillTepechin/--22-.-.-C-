@@ -13,25 +13,86 @@ namespace WindowsFormAAG
     public partial class FormHangar : Form
     {
         /// <summary>
-        /// Объект от класса-ангара
+        /// Объект от класса-коллекции ангаров
         /// </summary>
-        private readonly Hangar<ArmoredVehicle> hangar;
+        private readonly HangarCollection hangarCollection;
         public FormHangar()
         {
             InitializeComponent();
-            hangar = new Hangar<ArmoredVehicle>(pictureBoxHangar.Width,
-           pictureBoxHangar.Height);
-            Draw();
+            hangarCollection = new HangarCollection(pictureBoxHangar.Width,
+            pictureBoxHangar.Height);
+        }
+        /// <summary>
+        /// Заполнение listBoxLevels
+        /// </summary>
+        private void ReloadLevels()
+        {
+            int index = listBoxHangars.SelectedIndex;
+            listBoxHangars.Items.Clear();
+            
+            for (int i = 0; i < hangarCollection.Keys.Count; i++)
+            {
+                listBoxHangars.Items.Add(hangarCollection.Keys[i]);
+            }
+            if (listBoxHangars.Items.Count > 0 && (index == -1 || index >=
+            listBoxHangars.Items.Count))
+            {
+                listBoxHangars.SelectedIndex = 0;
+            }
+            else if (listBoxHangars.Items.Count > 0 && index > -1 && index <
+            listBoxHangars.Items.Count)
+            {
+                listBoxHangars.SelectedIndex = index;
+            }
         }
         /// <summary>
         /// Метод отрисовки ангара
         /// </summary>
         private void Draw()
         {
-            Bitmap bmp = new Bitmap(pictureBoxHangar.Width, pictureBoxHangar.Height);
-            Graphics gr = Graphics.FromImage(bmp);
-            hangar.Draw(gr);
-            pictureBoxHangar.Image = bmp;
+            if (listBoxHangars.SelectedIndex > -1)
+            {   //если выбран один из пуктов в listBox (при старте программы ни один пункт
+                //не будет выбран и может возникнуть ошибка, если мы попытаемся обратиться к элементу listBox)
+                Bitmap bmp = new Bitmap(pictureBoxHangar.Width,
+                pictureBoxHangar.Height);
+                Graphics gr = Graphics.FromImage(bmp);
+                hangarCollection[listBoxHangars.SelectedItem.ToString()].Draw(gr);
+                pictureBoxHangar.Image = bmp;
+            }
+        }
+        /// <summary>
+        /// Обработка нажатия кнопки "Добавить ангар"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonAddHangar_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBoxNewLevelName.Text))
+            {
+                MessageBox.Show("Введите название Ангара", "Ошибка",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            hangarCollection.AddHangar(textBoxNewLevelName.Text);
+            ReloadLevels();
+        }
+        /// <summary>
+        /// Обработка нажатия кнопки "Удалить ангар"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonDelHangar_Click(object sender, EventArgs e)
+        {
+            if (listBoxHangars.SelectedIndex > -1)
+            {
+                if (MessageBox.Show($"Удалить Ангар { listBoxHangars.SelectedItem.ToString()}?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    hangarCollection.DelParking(textBoxNewLevelName.Text);
+                    //hangarCollection.DelParking(listBoxHangars.SelectedItem.ToString());
+                    ReloadLevels();
+                }
+            }
+
         }
         /// <summary>
         /// Обработка нажатия кнопки "Припарковать бронетранспорт"
@@ -40,18 +101,22 @@ namespace WindowsFormAAG
         /// <param name="e"></param>
         private void buttonSetArmoredVehicle_Click(object sender, EventArgs e)
         {
-            ColorDialog dialog = new ColorDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (listBoxHangars.SelectedIndex > -1)
             {
-                var Aag = new ArmoredVehicle(100, 1000, dialog.Color);
-                
-                if (hangar + Aag>=0)
+                ColorDialog dialog = new ColorDialog();
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    Draw();
-                }
-                else
-                {
-                    MessageBox.Show("Парковка переполнена");
+                    var car = new ArmoredVehicle(100, 1000, dialog.Color);
+                    if (hangarCollection[listBoxHangars.SelectedItem.ToString()] +
+                    car>=0)
+                    {
+                        Draw();
+                    }
+                    else
+                    {
+
+                        MessageBox.Show("Ангар переполнен");
+                    }
                 }
             }
         }
@@ -62,22 +127,24 @@ namespace WindowsFormAAG
         /// <param name="e"></param>
         private void buttonSetAAG_Click(object sender, EventArgs e)
         {
-            ColorDialog dialog = new ColorDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (listBoxHangars.SelectedIndex > -1)
             {
-                ColorDialog dialogDop = new ColorDialog();
-                if (dialogDop.ShowDialog() == DialogResult.OK)
+                ColorDialog dialog = new ColorDialog();
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    var Aag = new AntiAircraftGun(100, 1000, dialog.Color, dialogDop.Color,
-                    true, true);
-                    
-                    if (hangar + Aag>=0)
+                    ColorDialog dialogDop = new ColorDialog();
+                    if (dialogDop.ShowDialog() == DialogResult.OK)
                     {
-                        Draw();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Парковка переполнена");
+                        var car = new AntiAircraftGun(100, 1000, dialog.Color,
+                        dialogDop.Color, true, true);
+                        if (hangarCollection[listBoxHangars.SelectedItem.ToString()] + car>=0)
+                        {
+                            Draw();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ангар переполнен");
+                        }
                     }
                 }
             }
@@ -89,17 +156,27 @@ namespace WindowsFormAAG
         /// <param name="e"></param>
         private void buttonTakeArmoredVehicle_Click(object sender, EventArgs e)
         {
-            if (maskedTextBox.Text != "")
+            if (listBoxHangars.SelectedIndex > -1 && maskedTextBox.Text != "")
             {
-                var armoredVehicle = hangar - Convert.ToInt32(maskedTextBox.Text);
-                if (armoredVehicle != null)
+                var car = hangarCollection[listBoxHangars.SelectedItem.ToString()] -
+                Convert.ToInt32(maskedTextBox.Text);
+                if (car != null)
                 {
                     FormAAG form = new FormAAG();
-                    form.SetArmoredVehicle(armoredVehicle);
+                    form.SetArmoredVehicle(car);
                     form.ShowDialog();
                 }
                 Draw();
             }
+        }
+        /// <summary>
+        /// Метод обработки выбора элемента на listBoxLevels
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void listBoxHangars_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            Draw();
         }
     }
 }
