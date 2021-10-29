@@ -133,9 +133,9 @@ namespace WindowsFormAAG
                     ColorDialog dialogDop = new ColorDialog();
                     if (dialogDop.ShowDialog() == DialogResult.OK)
                     {
-                        var car = new AntiAircraftGun(100, 1000, dialog.Color,
+                        var Aag = new AntiAircraftGun(100, 1000, dialog.Color,
                         dialogDop.Color, true, true);
-                        if (hangarCollection[listBoxHangars.SelectedItem.ToString()] + car>=0)
+                        if (hangarCollection[listBoxHangars.SelectedItem.ToString()] + Aag>=0)
                         {
                             Draw();
                         }
