@@ -116,7 +116,7 @@ namespace WindowsFormAAG
             this.listBoxHangars.Name = "listBoxHangars";
             this.listBoxHangars.Size = new System.Drawing.Size(158, 134);
             this.listBoxHangars.TabIndex = 6;
-            this.listBoxHangars.SelectedIndexChanged += new System.EventHandler(this.listBoxHangars_SelectedIndexChanged_1);
+            this.listBoxHangars.SelectedIndexChanged += new System.EventHandler(this.listBoxHangars_SelectedIndexChanged);
             // 
             // buttonTakeArmoredVehicle
             // 

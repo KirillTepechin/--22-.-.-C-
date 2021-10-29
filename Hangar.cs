@@ -71,7 +71,7 @@ namespace WindowsFormAAG
         /// Перегрузка оператора вычитания
         /// Логика действия: с ангара забираем технику
         /// </summary>
-        /// <param name="h">Ангар</param>
+        /// <param name="p">Ангар</param>
         /// <param name="index">Индекс места, с которого пытаемся извлечь  объект</param>
         /// <returns></returns>
         public static T operator -(Hangar<T> h, int index)

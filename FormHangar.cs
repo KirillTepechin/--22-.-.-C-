@@ -87,8 +87,7 @@ namespace WindowsFormAAG
             {
                 if (MessageBox.Show($"Удалить Ангар { listBoxHangars.SelectedItem.ToString()}?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    hangarCollection.DelParking(textBoxNewLevelName.Text);
-                    //hangarCollection.DelParking(listBoxHangars.SelectedItem.ToString());
+                    hangarCollection.DelParking(listBoxHangars.SelectedItem.ToString());
                     ReloadLevels();
                 }
             }
@@ -106,15 +105,14 @@ namespace WindowsFormAAG
                 ColorDialog dialog = new ColorDialog();
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    var car = new ArmoredVehicle(100, 1000, dialog.Color);
+                    var armoredVehicle = new ArmoredVehicle(100, 1000, dialog.Color);
                     if (hangarCollection[listBoxHangars.SelectedItem.ToString()] +
-                    car>=0)
+                    armoredVehicle>=0)
                     {
                         Draw();
                     }
                     else
                     {
-
                         MessageBox.Show("Ангар переполнен");
                     }
                 }
@@ -158,12 +156,12 @@ namespace WindowsFormAAG
         {
             if (listBoxHangars.SelectedIndex > -1 && maskedTextBox.Text != "")
             {
-                var car = hangarCollection[listBoxHangars.SelectedItem.ToString()] -
+                var armoredVehicle = hangarCollection[listBoxHangars.SelectedItem.ToString()] -
                 Convert.ToInt32(maskedTextBox.Text);
-                if (car != null)
+                if (armoredVehicle != null)
                 {
                     FormAAG form = new FormAAG();
-                    form.SetArmoredVehicle(car);
+                    form.SetArmoredVehicle(armoredVehicle);
                     form.ShowDialog();
                 }
                 Draw();
@@ -174,7 +172,7 @@ namespace WindowsFormAAG
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void listBoxHangars_SelectedIndexChanged_1(object sender, EventArgs e)
+        private void listBoxHangars_SelectedIndexChanged(object sender, EventArgs e)
         {
             Draw();
         }

@@ -54,10 +54,10 @@ namespace WindowsFormAAG
         /// <param name="name">Название ангара</param>
         public void DelParking(string name)
         {
-		if (hangarStages.ContainsKey(name))
-            	{ 
-                	hangarStages.Remove(name);
-            	}
+			if (hangarStages.ContainsKey(name))
+            { 
+                hangarStages.Remove(name);
+            }
         }
         /// <summary>
         /// Доступ к ангару
@@ -66,17 +66,17 @@ namespace WindowsFormAAG
         /// <returns></returns>
         public Hangar<Vehicle> this[string ind]
         {
-		get
-		{
-			if (hangarStages.ContainsKey(ind))
+			get
 			{
-				return hangarStages[ind];
-			}
-			else
-			{
-				return null;
+				if (hangarStages.ContainsKey(ind))
+				{
+					return hangarStages[ind];
+				}
+				else
+				{
+					return null;
+				}
 			}
 		}
-	}
     }
 }
