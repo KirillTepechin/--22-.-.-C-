@@ -17,7 +17,7 @@ namespace WindowsFormAAG
 			InitializeComponent();
 		}
 		public void SetArmoredVehicle(ITransport armoredVehicle)
-        {
+        	{
 			this.armoredVehicle = armoredVehicle;
 			Draw();
 		}
@@ -50,8 +50,8 @@ namespace WindowsFormAAG
 		{
 			//получаем имя кнопки
 			string name = (sender as Button).Name;
-            switch (name)
-            {
+            		switch (name)
+            		{
 				case "buttonUp":
 					armoredVehicle?.MoveTransport(Direction.Up);
 					break;
@@ -65,7 +65,7 @@ namespace WindowsFormAAG
 					armoredVehicle?.MoveTransport(Direction.Right);
 					break;
 			}
-            Draw();
+            		Draw();
 		}
 	}
 }
