@@ -31,6 +31,7 @@ namespace WindowsFormAAG
         {
             this.pictureBoxHangar = new System.Windows.Forms.PictureBox();
             this.groupBox = new System.Windows.Forms.GroupBox();
+            this.buttonSetArmoredVehicle = new System.Windows.Forms.Button();
             this.textBoxNewLevelName = new System.Windows.Forms.TextBox();
             this.buttonDelHangar = new System.Windows.Forms.Button();
             this.buttonAddHangar = new System.Windows.Forms.Button();
@@ -40,16 +41,22 @@ namespace WindowsFormAAG
             this.labelIndex = new System.Windows.Forms.Label();
             this.maskedTextBox = new System.Windows.Forms.MaskedTextBox();
             this.labelTake = new System.Windows.Forms.Label();
-            this.buttonSetArmoredVehicle = new System.Windows.Forms.Button();
+            this.menuStrip2 = new System.Windows.Forms.MenuStrip();
+            this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.загрузитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHangar)).BeginInit();
             this.groupBox.SuspendLayout();
+            this.menuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBoxHangar
             // 
-            this.pictureBoxHangar.Location = new System.Drawing.Point(-3, 0);
+            this.pictureBoxHangar.Location = new System.Drawing.Point(0, 27);
             this.pictureBoxHangar.Name = "pictureBoxHangar";
-            this.pictureBoxHangar.Size = new System.Drawing.Size(806, 453);
+            this.pictureBoxHangar.Size = new System.Drawing.Size(806, 362);
             this.pictureBoxHangar.TabIndex = 0;
             this.pictureBoxHangar.TabStop = false;
             // 
@@ -65,11 +72,21 @@ namespace WindowsFormAAG
             this.groupBox.Controls.Add(this.labelIndex);
             this.groupBox.Controls.Add(this.maskedTextBox);
             this.groupBox.Controls.Add(this.labelTake);
-            this.groupBox.Location = new System.Drawing.Point(603, 0);
+            this.groupBox.Location = new System.Drawing.Point(603, -6);
             this.groupBox.Name = "groupBox";
             this.groupBox.Size = new System.Drawing.Size(200, 453);
             this.groupBox.TabIndex = 1;
             this.groupBox.TabStop = false;
+            // 
+            // buttonSetArmoredVehicle
+            // 
+            this.buttonSetArmoredVehicle.Location = new System.Drawing.Point(25, 292);
+            this.buttonSetArmoredVehicle.Name = "buttonSetArmoredVehicle";
+            this.buttonSetArmoredVehicle.Size = new System.Drawing.Size(150, 40);
+            this.buttonSetArmoredVehicle.TabIndex = 11;
+            this.buttonSetArmoredVehicle.Text = "Добавить бронетранспорт";
+            this.buttonSetArmoredVehicle.UseVisualStyleBackColor = true;
+            this.buttonSetArmoredVehicle.Click += new System.EventHandler(this.buttonSetArmoredVehicle_Click);
             // 
             // textBoxNewLevelName
             // 
@@ -151,15 +168,47 @@ namespace WindowsFormAAG
             this.labelTake.TabIndex = 0;
             this.labelTake.Text = "Забрать бронетранспорт";
             // 
-            // buttonSetArmoredVehicle
+            // menuStrip2
             // 
-            this.buttonSetArmoredVehicle.Location = new System.Drawing.Point(25, 292);
-            this.buttonSetArmoredVehicle.Name = "buttonSetArmoredVehicle";
-            this.buttonSetArmoredVehicle.Size = new System.Drawing.Size(150, 40);
-            this.buttonSetArmoredVehicle.TabIndex = 11;
-            this.buttonSetArmoredVehicle.Text = "Добавить бронетранспорт";
-            this.buttonSetArmoredVehicle.UseVisualStyleBackColor = true;
-            this.buttonSetArmoredVehicle.Click += new System.EventHandler(this.buttonSetArmoredVehicle_Click);
+            this.menuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.файлToolStripMenuItem});
+            this.menuStrip2.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip2.Name = "menuStrip2";
+            this.menuStrip2.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip2.TabIndex = 3;
+            this.menuStrip2.Text = "menuStrip2";
+            // 
+            // файлToolStripMenuItem
+            // 
+            this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.сохранитьToolStripMenuItem,
+            this.загрузитьToolStripMenuItem});
+            this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.файлToolStripMenuItem.Text = "Файл";
+            // 
+            // сохранитьToolStripMenuItem
+            // 
+            this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
+            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.сохранитьToolStripMenuItem.Text = "Сохранить";
+            this.сохранитьToolStripMenuItem.Click += new System.EventHandler(this.сохранитьToolStripMenuItem_Click);
+            // 
+            // загрузитьToolStripMenuItem
+            // 
+            this.загрузитьToolStripMenuItem.Name = "загрузитьToolStripMenuItem";
+            this.загрузитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.загрузитьToolStripMenuItem.Text = "Загрузить";
+            this.загрузитьToolStripMenuItem.Click += new System.EventHandler(this.загрузитьToolStripMenuItem_Click);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog";
+            this.openFileDialog.Filter = "txt file | *.txt";
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "txt file | *.txt";
             // 
             // FormHangar
             // 
@@ -168,12 +217,16 @@ namespace WindowsFormAAG
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.groupBox);
             this.Controls.Add(this.pictureBoxHangar);
+            this.Controls.Add(this.menuStrip2);
             this.Name = "FormHangar";
             this.Text = "Парковка";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHangar)).EndInit();
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();
+            this.menuStrip2.ResumeLayout(false);
+            this.menuStrip2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -191,5 +244,11 @@ namespace WindowsFormAAG
         private System.Windows.Forms.Label labelHangars;
         private System.Windows.Forms.TextBox textBoxNewLevelName;
         private System.Windows.Forms.Button buttonSetArmoredVehicle;
+        private System.Windows.Forms.MenuStrip menuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem загрузитьToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }

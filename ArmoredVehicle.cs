@@ -17,6 +17,10 @@ namespace WindowsFormAAG
 		/// </summary>
 		protected readonly int armoredVehicleHeight = 50;
 		/// <summary>
+		/// Разделитель для записи информации по объекту в файл
+		/// </summary>
+		protected readonly char separator = ';';
+		/// <summary>
 		/// Конструктор
 		/// </summary>
 		/// <param name="maxSpeed">Максимальная скорость</param>
@@ -27,6 +31,20 @@ namespace WindowsFormAAG
 			MaxSpeed = maxSpeed;
 			Weight = weight;
 			MainColor = mainColor;
+		}
+		/// <summary>
+		/// Конструктор для загрузки с файла
+		/// </summary>
+		/// <param name="info">Информация по объекту</param>
+		public ArmoredVehicle(string info)
+		{
+			string[] strs = info.Split(separator);
+			if (strs.Length == 3)
+			{
+				MaxSpeed = Convert.ToInt32(strs[0]);
+				Weight = Convert.ToInt32(strs[1]);
+				MainColor = Color.FromName(strs[2]);
+			}
 		}
 		/// <summary>
 		/// Конструкторс изменением размеров машины
@@ -111,6 +129,10 @@ namespace WindowsFormAAG
 				t += 25;
 			}
 			g.DrawEllipse(pen, _startPosX + 75 + shiftX, _startPosY + 19 + shiftY, 20, 20);
+		}
+		public override string ToString()
+		{
+			return $"{MaxSpeed}{separator}{Weight}{separator}{MainColor.Name}";
 		}
 	}
 }

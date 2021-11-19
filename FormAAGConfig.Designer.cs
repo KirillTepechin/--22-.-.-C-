@@ -306,7 +306,7 @@ namespace WindowsFormAAG
             // 
             // panelDarkOliveGreen
             // 
-            this.panelDarkOliveGreen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.panelDarkOliveGreen.BackColor = System.Drawing.Color.DarkGreen;
             this.panelDarkOliveGreen.Location = new System.Drawing.Point(42, 67);
             this.panelDarkOliveGreen.Name = "panelDarkOliveGreen";
             this.panelDarkOliveGreen.Size = new System.Drawing.Size(30, 30);
@@ -314,7 +314,7 @@ namespace WindowsFormAAG
             // 
             // panelDarkGreen
             // 
-            this.panelDarkGreen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.panelDarkGreen.BackColor = System.Drawing.Color.DarkOliveGreen;
             this.panelDarkGreen.Location = new System.Drawing.Point(6, 67);
             this.panelDarkGreen.Name = "panelDarkGreen";
             this.panelDarkGreen.Size = new System.Drawing.Size(30, 30);

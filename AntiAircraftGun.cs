@@ -34,6 +34,23 @@ bool gun, bool radiolocation) :
             Gun = gun;
             Radiolocation = radiolocation;
         }
+        /// <summary>
+        /// Конструктор для загрузки с файла
+        /// </summary>
+        /// <param name="info"></param>
+        public AntiAircraftGun(string info) : base(info)
+        {
+            string[] strs = info.Split(separator);
+            if (strs.Length == 6)
+            {
+                MaxSpeed = Convert.ToInt32(strs[0]);
+                Weight = Convert.ToInt32(strs[1]);
+                MainColor = Color.FromName(strs[2]);
+                DopColor = Color.FromName(strs[3]);
+                Gun = Convert.ToBoolean(strs[4]);
+                Radiolocation = Convert.ToBoolean(strs[5]);
+            }
+        }
         public override void DrawTransport(Graphics g)
         {
             Pen pen = new Pen(MainColor);
@@ -81,6 +98,11 @@ bool gun, bool radiolocation) :
         {
             DopColor = color;
         }
+        public override string ToString()
+        {
+            return $"{base.ToString()}{separator}{DopColor.Name}{separator}{Gun}{separator}{Radiolocation}";
+        }
+
 
     }
 }

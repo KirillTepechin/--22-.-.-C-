@@ -96,9 +96,9 @@ namespace WindowsFormAAG
             DrawMarking(g);
             for (int i = 0; i < _places.Count; ++i)
             {
-                _places[i].SetPosition(5 + i % 3 * _placeSizeWidth + 5, i / 3 *
+                _places[i]?.SetPosition(5 + i % 3 * _placeSizeWidth + 5, i / 3 *
                 (_placeSizeHeight + 9) + 12, pictureWidth, pictureHeight);
-                _places[i].DrawTransport(g);
+                _places[i]?.DrawTransport(g);
             }
         }
         /// <summary>
@@ -120,6 +120,19 @@ namespace WindowsFormAAG
                (pictureHeight / _placeSizeHeight) * (_placeSizeHeight + shift));
 
             }
+        }
+        /// <summary>
+        /// Функция получения элементы из списка
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public T GetNext(int index)
+        {
+            if (index < 0 || index >= _places.Count)
+            {
+                return null;
+            }
+            return _places[index];
         }
     }
 }

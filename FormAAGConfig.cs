@@ -23,7 +23,8 @@ namespace WindowsFormAAG
         public FormAAGConfig()
         {
             InitializeComponent();
-            foreach (Control control in groupBoxColors.Controls)
+            
+            foreach(Control control in groupBoxColors.Controls)
             {
                 control.MouseDown += new MouseEventHandler(panelColor_MouseDown);
             }
