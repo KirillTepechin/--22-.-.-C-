@@ -94,60 +94,6 @@ namespace WindowsFormAAG
 
         }
         /// <summary>
-        /// Обработка нажатия кнопки "Припарковать бронетранспорт"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void buttonSetArmoredVehicle_Click(object sender, EventArgs e)
-        {
-            if (listBoxHangars.SelectedIndex > -1)
-            {
-                ColorDialog dialog = new ColorDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    var armoredVehicle = new ArmoredVehicle(100, 1000, dialog.Color);
-                    if (hangarCollection[listBoxHangars.SelectedItem.ToString()] +
-                    armoredVehicle>=0)
-                    {
-                        Draw();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ангар переполнен");
-                    }
-                }
-            }
-        }
-        /// <summary>
-        /// Обработка нажатия кнопки "Припарковать зенитку"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void buttonSetAAG_Click(object sender, EventArgs e)
-        {
-            if (listBoxHangars.SelectedIndex > -1)
-            {
-                ColorDialog dialog = new ColorDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    ColorDialog dialogDop = new ColorDialog();
-                    if (dialogDop.ShowDialog() == DialogResult.OK)
-                    {
-                        var Aag = new AntiAircraftGun(100, 1000, dialog.Color,
-                        dialogDop.Color, true, true);
-                        if (hangarCollection[listBoxHangars.SelectedItem.ToString()] + Aag>=0)
-                        {
-                            Draw();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Ангар переполнен");
-                        }
-                    }
-                }
-            }
-        }
-        /// <summary>
         /// Обработка нажатия кнопки "Взять бронетранспорт"
         /// </summary>
         /// <param name="sender"></param>
@@ -157,7 +103,7 @@ namespace WindowsFormAAG
             if (listBoxHangars.SelectedIndex > -1 && maskedTextBox.Text != "")
             {
                 var armoredVehicle = hangarCollection[listBoxHangars.SelectedItem.ToString()] -
-                Convert.ToInt32(maskedTextBox.Text);
+               Convert.ToInt32(maskedTextBox.Text);
                 if (armoredVehicle != null)
                 {
                     FormAAG form = new FormAAG();
@@ -175,6 +121,35 @@ namespace WindowsFormAAG
         private void listBoxHangars_SelectedIndexChanged(object sender, EventArgs e)
         {
             Draw();
+        }
+        /// <summary>
+        /// Обработка нажатия кнопки "Добавить бронетранспорт"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonSetArmoredVehicle_Click(object sender, EventArgs e)
+        {
+            var formAAGConfig = new FormAAGConfig();
+            formAAGConfig.AddEvent(AddArmoredVehicle);
+            formAAGConfig.Show();
+        }
+        /// <summary>
+        /// Метод добавления транспорта
+        /// </summary>
+        /// <param name="car"></param>
+        private void AddArmoredVehicle(Vehicle armoredVehicle)
+        {
+            if (armoredVehicle != null && listBoxHangars.SelectedIndex > -1)
+            {
+                if ((hangarCollection[listBoxHangars.SelectedItem.ToString()]) + armoredVehicle >= 0)
+                {
+                    Draw();
+                }
+                else
+                {
+                    MessageBox.Show("Бронетранспорт не удалось поставить");
+                }
+            }
         }
     }
 }

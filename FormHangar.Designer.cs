@@ -37,11 +37,10 @@ namespace WindowsFormAAG
             this.labelHangars = new System.Windows.Forms.Label();
             this.listBoxHangars = new System.Windows.Forms.ListBox();
             this.buttonTakeArmoredVehicle = new System.Windows.Forms.Button();
-            this.buttonSetAAG = new System.Windows.Forms.Button();
-            this.buttonSetArmoredVehicle = new System.Windows.Forms.Button();
             this.labelIndex = new System.Windows.Forms.Label();
             this.maskedTextBox = new System.Windows.Forms.MaskedTextBox();
             this.labelTake = new System.Windows.Forms.Label();
+            this.buttonSetArmoredVehicle = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHangar)).BeginInit();
             this.groupBox.SuspendLayout();
             this.SuspendLayout();
@@ -56,14 +55,13 @@ namespace WindowsFormAAG
             // 
             // groupBox
             // 
+            this.groupBox.Controls.Add(this.buttonSetArmoredVehicle);
             this.groupBox.Controls.Add(this.textBoxNewLevelName);
             this.groupBox.Controls.Add(this.buttonDelHangar);
             this.groupBox.Controls.Add(this.buttonAddHangar);
             this.groupBox.Controls.Add(this.labelHangars);
             this.groupBox.Controls.Add(this.listBoxHangars);
             this.groupBox.Controls.Add(this.buttonTakeArmoredVehicle);
-            this.groupBox.Controls.Add(this.buttonSetAAG);
-            this.groupBox.Controls.Add(this.buttonSetArmoredVehicle);
             this.groupBox.Controls.Add(this.labelIndex);
             this.groupBox.Controls.Add(this.maskedTextBox);
             this.groupBox.Controls.Add(this.labelTake);
@@ -128,26 +126,6 @@ namespace WindowsFormAAG
             this.buttonTakeArmoredVehicle.UseVisualStyleBackColor = true;
             this.buttonTakeArmoredVehicle.Click += new System.EventHandler(this.buttonTakeArmoredVehicle_Click);
             // 
-            // buttonSetAAG
-            // 
-            this.buttonSetAAG.Location = new System.Drawing.Point(25, 316);
-            this.buttonSetAAG.Name = "buttonSetAAG";
-            this.buttonSetAAG.Size = new System.Drawing.Size(159, 47);
-            this.buttonSetAAG.TabIndex = 4;
-            this.buttonSetAAG.Text = "Припарковать зенитку";
-            this.buttonSetAAG.UseVisualStyleBackColor = true;
-            this.buttonSetAAG.Click += new System.EventHandler(this.buttonSetAAG_Click);
-            // 
-            // buttonSetArmoredVehicle
-            // 
-            this.buttonSetArmoredVehicle.Location = new System.Drawing.Point(25, 264);
-            this.buttonSetArmoredVehicle.Name = "buttonSetArmoredVehicle";
-            this.buttonSetArmoredVehicle.Size = new System.Drawing.Size(159, 46);
-            this.buttonSetArmoredVehicle.TabIndex = 3;
-            this.buttonSetArmoredVehicle.Text = "Припарковать бронетранспорт";
-            this.buttonSetArmoredVehicle.UseVisualStyleBackColor = true;
-            this.buttonSetArmoredVehicle.Click += new System.EventHandler(this.buttonSetArmoredVehicle_Click);
-            // 
             // labelIndex
             // 
             this.labelIndex.AutoSize = true;
@@ -173,6 +151,16 @@ namespace WindowsFormAAG
             this.labelTake.TabIndex = 0;
             this.labelTake.Text = "Забрать бронетранспорт";
             // 
+            // buttonSetArmoredVehicle
+            // 
+            this.buttonSetArmoredVehicle.Location = new System.Drawing.Point(25, 292);
+            this.buttonSetArmoredVehicle.Name = "buttonSetArmoredVehicle";
+            this.buttonSetArmoredVehicle.Size = new System.Drawing.Size(150, 40);
+            this.buttonSetArmoredVehicle.TabIndex = 11;
+            this.buttonSetArmoredVehicle.Text = "Добавить бронетранспорт";
+            this.buttonSetArmoredVehicle.UseVisualStyleBackColor = true;
+            this.buttonSetArmoredVehicle.Click += new System.EventHandler(this.buttonSetArmoredVehicle_Click);
+            // 
             // FormHangar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -194,8 +182,6 @@ namespace WindowsFormAAG
         private System.Windows.Forms.PictureBox pictureBoxHangar;
         private System.Windows.Forms.GroupBox groupBox;
         private System.Windows.Forms.Button buttonTakeArmoredVehicle;
-        private System.Windows.Forms.Button buttonSetAAG;
-        private System.Windows.Forms.Button buttonSetArmoredVehicle;
         private System.Windows.Forms.Label labelIndex;
         private System.Windows.Forms.MaskedTextBox maskedTextBox;
         private System.Windows.Forms.Label labelTake;
@@ -204,5 +190,6 @@ namespace WindowsFormAAG
         private System.Windows.Forms.Button buttonAddHangar;
         private System.Windows.Forms.Label labelHangars;
         private System.Windows.Forms.TextBox textBoxNewLevelName;
+        private System.Windows.Forms.Button buttonSetArmoredVehicle;
     }
 }
