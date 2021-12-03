@@ -58,7 +58,7 @@ namespace WindowsFormAAG
         {
             if (h._maxCount == h._places.Count)
             {
-                return - 1;
+                throw new HangarOverflowException();
             }
             else
             {
@@ -78,7 +78,7 @@ namespace WindowsFormAAG
         {
             if (index>=h._places.Count||index<0)
             {
-                return null;
+                throw new HangarNotFoundException(index);
             }
             else
             {

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NLog;
 
 namespace WindowsFormAAG
 {
@@ -16,11 +17,16 @@ namespace WindowsFormAAG
         /// Объект от класса-коллекции ангаров
         /// </summary>
         private readonly HangarCollection hangarCollection;
+        /// <summary>
+        /// Логгер
+        /// </summary>
+        private readonly Logger logger;
         public FormHangar()
         {
             InitializeComponent();
             hangarCollection = new HangarCollection(pictureBoxHangar.Width,
             pictureBoxHangar.Height);
+            logger = LogManager.GetCurrentClassLogger();
         }
         /// <summary>
         /// Заполнение listBoxLevels
@@ -73,6 +79,7 @@ namespace WindowsFormAAG
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            logger.Info($"Добавили ангар {textBoxNewLevelName.Text}");
             hangarCollection.AddHangar(textBoxNewLevelName.Text);
             ReloadLevels();
         }
@@ -87,6 +94,7 @@ namespace WindowsFormAAG
             {
                 if (MessageBox.Show($"Удалить Ангар { listBoxHangars.SelectedItem.ToString()}?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
+                    logger.Info($"Удалили ангар{ listBoxHangars.SelectedItem.ToString()}");
                     hangarCollection.DelParking(listBoxHangars.SelectedItem.ToString());
                     ReloadLevels();
                 }
@@ -102,15 +110,32 @@ namespace WindowsFormAAG
         {
             if (listBoxHangars.SelectedIndex > -1 && maskedTextBox.Text != "")
             {
-                var armoredVehicle = hangarCollection[listBoxHangars.SelectedItem.ToString()] -
-               Convert.ToInt32(maskedTextBox.Text);
-                if (armoredVehicle != null)
+                try
                 {
-                    FormAAG form = new FormAAG();
-                    form.SetArmoredVehicle(armoredVehicle);
-                    form.ShowDialog();
+                    var armoredVehicle =
+                    hangarCollection[listBoxHangars.SelectedItem.ToString()] -
+                    Convert.ToInt32(maskedTextBox.Text);
+                    if (armoredVehicle != null)
+                    {
+                        FormAAG form = new FormAAG();
+                        form.SetArmoredVehicle(armoredVehicle);
+                        form.ShowDialog();
+                        logger.Info($"Изъят бронетранспорт {armoredVehicle} с места { maskedTextBox.Text}");
+                        Draw();
+                    }
                 }
-                Draw();
+                catch (HangarNotFoundException ex)
+                {
+                    MessageBox.Show(ex.Message, "Не найдено", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                    logger.Warn("Не найдено");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn("Возникла ошибка - " + ex.Message);
+                }
             }
         }
         /// <summary>
@@ -120,6 +145,7 @@ namespace WindowsFormAAG
         /// <param name="e"></param>
         private void listBoxHangars_SelectedIndexChanged(object sender, EventArgs e)
         {
+            logger.Info($"Перешли в ангар {listBoxHangars.SelectedItem.ToString()}");
             Draw();
         }
         /// <summary>
@@ -136,18 +162,35 @@ namespace WindowsFormAAG
         /// <summary>
         /// Метод добавления транспорта
         /// </summary>
-        /// <param name="car"></param>
+        /// <param name="armoredVehicle"></param>
         private void AddArmoredVehicle(Vehicle armoredVehicle)
         {
             if (armoredVehicle != null && listBoxHangars.SelectedIndex > -1)
             {
-                if ((hangarCollection[listBoxHangars.SelectedItem.ToString()]) + armoredVehicle >= 0)
+                try
                 {
+                    if ((hangarCollection[listBoxHangars.SelectedItem.ToString()]) + armoredVehicle >= 0)
+                    {
+                        Draw();
+                        logger.Info($"Добавлен бронетранспорт {armoredVehicle}");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Бронетранспорт не удалось поставить");
+                    }
                     Draw();
                 }
-                else
+                catch (HangarOverflowException ex)
                 {
-                    MessageBox.Show("Бронетранспорт не удалось поставить");
+                    MessageBox.Show(ex.Message, "Переполнение", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                    logger.Warn("Не удалось поставить бронетранспорт");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn("Возникла ошибка - " + ex.Message);
                 }
             }
         }
@@ -158,17 +201,19 @@ namespace WindowsFormAAG
         /// <param name="e"></param>
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                if (hangarCollection.SaveData(saveFileDialog.FileName))
+            if(saveFileDialog.ShowDialog() == DialogResult.OK)
+            { 
+                try
                 {
-                    MessageBox.Show("Сохранение прошло успешно", "Результат",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    hangarCollection.SaveData(saveFileDialog.FileName);
+                    MessageBox.Show("Сохранение прошло успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    logger.Info("Сохранено в файл " + saveFileDialog.FileName);
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Не сохранилось", "Результат",
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn("Возникла ошибка - " + ex.Message);
                 }
             }
         }
@@ -181,18 +226,27 @@ namespace WindowsFormAAG
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (hangarCollection.LoadData(openFileDialog.FileName))
+                try
                 {
+                    hangarCollection.LoadData(openFileDialog.FileName);
+
                     MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
+                    logger.Info("Загружено из файла " + openFileDialog.FileName);
                     ReloadLevels();
                     Draw();
 
                 }
-                else
+                catch (HangarOverflowException ex)
                 {
-                    MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK,
+                    MessageBox.Show(ex.Message, "Занятое место", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка при загрузке",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn("Возникла ошибка - "+ex.Message);
                 }
             }
         }
