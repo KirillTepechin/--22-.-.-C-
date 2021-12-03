@@ -58,7 +58,7 @@ namespace WindowsFormAAG
         {
             if (h._maxCount == h._places.Count)
             {
-                return - 1;
+                throw new HangarOverflowException();
             }
             else
             {
@@ -78,7 +78,7 @@ namespace WindowsFormAAG
         {
             if (index>=h._places.Count||index<0)
             {
-                return null;
+                throw new HangarNotFoundException(index);
             }
             else
             {
@@ -96,9 +96,9 @@ namespace WindowsFormAAG
             DrawMarking(g);
             for (int i = 0; i < _places.Count; ++i)
             {
-                _places[i].SetPosition(5 + i % 3 * _placeSizeWidth + 5, i / 3 *
+                _places[i]?.SetPosition(5 + i % 3 * _placeSizeWidth + 5, i / 3 *
                 (_placeSizeHeight + 9) + 12, pictureWidth, pictureHeight);
-                _places[i].DrawTransport(g);
+                _places[i]?.DrawTransport(g);
             }
         }
         /// <summary>

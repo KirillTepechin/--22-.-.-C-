@@ -135,7 +135,7 @@ namespace WindowsFormAAG
         {
             if (!File.Exists(filename))
             {
-                return false;
+                throw new FileNotFoundException();
             }
             using (StreamReader sr = new StreamReader(filename, Encoding.Default))
             {
@@ -149,7 +149,8 @@ namespace WindowsFormAAG
                 else
                 {
                     //если нет такой записи, то это не те данные
-                    return false;
+                    throw new FileFormatException("Неверный формат файла");
+                    
                 }
                 Vehicle ArmoredVehicle = null;
                 string key = string.Empty;
@@ -174,10 +175,9 @@ namespace WindowsFormAAG
                     {
                         ArmoredVehicle = new AntiAircraftGun(strs.Split(separator)[1]);
                     }
-                    var result = hangarStages[key] + ArmoredVehicle;
-                    if (result < 0)
+                    if (hangarStages[key] + ArmoredVehicle < 0)
                     {
-                        return false;
+                         throw new TypeLoadException("Не удалось загрузить автомобиль на парковку");
                     }
                 }
                 return true;
