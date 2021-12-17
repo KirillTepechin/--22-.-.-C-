@@ -102,24 +102,19 @@ namespace WindowsFormAAG
                 {
                     //Начинаем парковку
                     sw.WriteLine($"Hangar{separator}{level.Key}");
-                    ITransport ArmoredVehicle = null;
-                    for (int i = 0; (ArmoredVehicle = level.Value.GetNext(i)) != null; i++)
+                    foreach (ITransport armoredVehicle in level.Value)
                     {
-                        if (ArmoredVehicle != null)
+                        //Записываем тип машины
+                        if (armoredVehicle.GetType().Name == "ArmoredVehicle")
                         {
-                            //если место не пустое
-                            //Записываем тип машины
-                            if (ArmoredVehicle.GetType().Name == "ArmoredVehicle")
-                            {
-                                sw.Write($"\tArmoredVehicle{separator}");
-                            }
-                            if (ArmoredVehicle.GetType().Name == "AntiAircraftGun")
-                            {
-                                sw.Write($"\tAntiAircraftGun{separator}");
-                            }
-                            //Записываемые параметры
-                            sw.WriteLine(ArmoredVehicle);
+                            sw.Write($"\tArmoredVehicle{separator}");
                         }
+                        if (armoredVehicle.GetType().Name == "AntiAircraftGun")
+                        {
+                            sw.Write($"\tAntiAircraftGun{separator}");
+                        }
+                        //Записываемые параметры
+                        sw.WriteLine(armoredVehicle);
                     }
                 }
             }
