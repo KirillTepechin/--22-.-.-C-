@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="AntiAircraftGun.cs" />
     <Compile Include="ArmoredVehicle.cs" />
+    <Compile Include="ArmoredVehicleComparer.cs" />
     <Compile Include="FormAAGConfig.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +74,7 @@
       <DependentUpon>FormHangar.cs</DependentUpon>
     </Compile>
     <Compile Include="Hangar.cs" />
+    <Compile Include="HangarAlreadyHaveException.cs" />
     <Compile Include="HangarCollection.cs" />
     <Compile Include="HangarNotFoundException.cs" />
     <Compile Include="HangarOverflowException.cs" />

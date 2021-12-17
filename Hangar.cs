@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Collections;
 
 namespace WindowsFormAAG
 {
-    public class Hangar<T> where T : class, ITransport
+    public class Hangar<T> : IEnumerator<T>, IEnumerable<T> where T : class, ITransport
     {
         /// <summary>
         /// Список объектов, которые храним
@@ -34,6 +35,12 @@ namespace WindowsFormAAG
         /// </summary>
         private readonly int _placeSizeHeight = 80;
         /// <summary>
+        /// Текущий элемент для вывода через IEnumerator (будет обращаться по своему индексу к ключу словаря, по которму будет возвращаться запись)
+        /// </summary>
+        private int _currentIndex;
+        public T Current => _places[_currentIndex];
+        object IEnumerator.Current => _places[_currentIndex];
+        /// <summary>
         /// Конструктор
         /// </summary>
         /// <param name="picWidth">Размер ангара - ширина</param>
@@ -46,6 +53,7 @@ namespace WindowsFormAAG
             pictureWidth = picWidth;
             pictureHeight = picHeight;
             _places = new List<T>();
+            _currentIndex = -1;
         }
         /// <summary>
         /// Перегрузка оператора сложения
@@ -59,6 +67,10 @@ namespace WindowsFormAAG
             if (h._maxCount == h._places.Count)
             {
                 throw new HangarOverflowException();
+            }
+            else if (h._places.Contains(ArmoredVehicle))
+            {
+                throw new HangarAlreadyHaveException();
             }
             else
             {
@@ -96,9 +108,9 @@ namespace WindowsFormAAG
             DrawMarking(g);
             for (int i = 0; i < _places.Count; ++i)
             {
-                _places[i].SetPosition(5 + i % 3 * _placeSizeWidth + 5, i / 3 *
+                _places[i]?.SetPosition(5 + i % 3 * _placeSizeWidth + 5, i / 3 *
                 (_placeSizeHeight + 9) + 12, pictureWidth, pictureHeight);
-                _places[i].DrawTransport(g);
+                _places[i]?.DrawTransport(g);
             }
         }
         /// <summary>
@@ -133,6 +145,54 @@ namespace WindowsFormAAG
                 return null;
             }
             return _places[index];
+        }
+        /// <summary>
+        /// Сортировка автомобилей на парковке
+        /// </summary>
+        public void Sort() => _places.Sort((IComparer<T>)new ArmoredVehicleComparer());
+        /// <summary>
+        /// Метод интерфейса IEnumerator, вызываемый при удалении объекта
+        /// </summary>
+        public void Dispose()
+        {
+        }
+        /// <summary>
+        /// Метод интерфейса IEnumerator для перехода к следующему элементу или началу коллекции
+        /// </summary>
+        /// <returns></returns>
+        public bool MoveNext()
+        {
+            if (_currentIndex + 1 < _places.Count)
+            {
+                _currentIndex++;
+                return true;
+            }
+            else
+            {
+                Reset();
+                return false;
+            }
+        }
+        /// <summary>
+        /// Метод интерфейса IEnumerator для сброса и возврата к началу коллекции
+        /// </summary>
+        public void Reset()
+        {
+            _currentIndex = -1;
+        }
+        /// <summary>
+        /// Метод интерфейса IEnumerable
+        /// </summary>
+        public IEnumerator<T> GetEnumerator()
+        {
+            return this;
+        }
+        /// <summary>
+        /// Метод интерфейса IEnumerable
+        /// </summary>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this;
         }
     }
 }

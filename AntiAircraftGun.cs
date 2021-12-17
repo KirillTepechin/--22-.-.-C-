@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace WindowsFormAAG
 {
-    public class AntiAircraftGun : ArmoredVehicle
+    public class AntiAircraftGun : ArmoredVehicle, IEquatable<AntiAircraftGun>
 
     {
         /// <summary>
@@ -102,7 +102,50 @@ bool gun, bool radiolocation) :
         {
             return $"{base.ToString()}{separator}{DopColor.Name}{separator}{Gun}{separator}{Radiolocation}";
         }
-
-
+        /// <summary>
+        /// Метод интерфейса IEquatable для класса AntiAircraftGun
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(AntiAircraftGun other)
+        {
+            if (!Equals((ArmoredVehicle)other))
+            {
+                return false;
+            }
+            if (Gun != other.Gun)
+            {
+                return false;
+            }
+            if (Radiolocation != other.Radiolocation)
+            {
+                return false;
+            }
+            if (DopColor != other.DopColor)
+            {
+                return false;
+            }
+            return true;
+        }
+        /// <summary>
+        /// Перегрузка метода от object
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (!(obj is AntiAircraftGun AAGObj))
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(AAGObj);
+            }
+        }
     }
 }
